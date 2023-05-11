@@ -1,0 +1,49 @@
+version: '3'
+services:
+  mysql-spe-service:
+    image: mysql
+    container_name: mysql-spe-sevices
+    restart: always
+    networks:
+      - spe-network
+    environment:
+      MYSQL_DATABASE: "motor_com"
+      MYSQL_ROOT_PASSWORD: "Password"
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      - "3307:3306"
+    volumes:
+      - "~/spe-dp:/var/lib/mysql"
+
+  spe-backend-container:
+    image: "nirajlande/spe-backend"
+    container_name: spe-backend-container
+    restart: always
+    networks:
+      - spe-network
+    # environment:
+    #   MYSQL_URL: jdbc:mysql://mysql-swapsie-service:3306/swapsieDevops?useSSL=false&useUnicode=yes&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    #   MYSQL_NAME: root
+    #   MYSQL_PASSWORD: Password
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-spe-service
+
+  spe-frontend-container:
+    image: "nirajlande/spe-frontend"
+    container_name: spe-frontend-container
+    restart: always
+    networks:
+      - spe-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - spe-backend-container
+    
+networks:
+  spe-network:
+    driver: bridge
+
+volumes:
+  spe-dp:

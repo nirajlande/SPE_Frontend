@@ -12,7 +12,7 @@ import Navbar_head from './components/Navbar_head';
 // you might receive from an API
 
 function App() {
-  let h="https://f89a-104-28-220-171.ngrok-free.app/"
+  let h="http://localhost:8081/"
   return (
   
     <>
