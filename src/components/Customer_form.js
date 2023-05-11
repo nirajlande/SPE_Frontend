@@ -25,6 +25,18 @@ function Customer_form(props){
   const {cust_id,resp} = state;
 console.log(resp)
 
+
+axios.interceptors.request.use( config => {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  if(user){
+    const token = 'Bearer ' + user;
+    config.headers.Authorization =  token;
+  }
+  return config;
+});
+
+
   async function save(event)
   {
       event.preventDefault();
@@ -74,7 +86,7 @@ return(
 <>
 <div class="container mt-4">
   <Navbar_head/>
-  <h1>Regester your Request</h1>
+  <h1>Register your Request</h1>
 <form noValidate>
         <div class="form-group">
             <label>Vehicle Registration Number</label>

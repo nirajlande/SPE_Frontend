@@ -20,9 +20,20 @@ function Customer_reg(props){
   const [pwd, setPass] = useState("");
   const navigate = useNavigate()
 
-
-
   const [formErrors, setFormErrors] = useState({});
+
+  axios.interceptors.request.use( config => {
+    const user = JSON.parse(localStorage.getItem('user'));
+  
+    if(user){
+      const token = 'Bearer ' + user;
+      config.headers.Authorization =  token;
+    }
+    return config;
+  });
+
+
+
 {/* <h1 style={{ color: 'red' }}>Hello world</h1> */}
 
 const validateForm = () => {
@@ -63,7 +74,7 @@ const validateForm = () => {
   if(validateForm()){
   try
       {
-       await axios.post(`${props.Api}api/customer`,
+       await axios.post(`${props.Api}api/auth/register/user`,
       {
       
       firstName: fname,

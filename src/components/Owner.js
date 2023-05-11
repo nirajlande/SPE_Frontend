@@ -12,8 +12,20 @@ function Owner(props){
   const [active, setActive] = useState(false);
   const [ack, setAck] = useState("");
   
-  //let [res,setRes]=useState([{patient_id:1,firstName:"Raju",lastName:"Srivastav",Doc_id:7},{patient_id:5,firstName:"Vishal",lastName:"Singh",Doc_id:2},{patient_id:8,firstName:"Simha",lastName:"Nandagudi",Doc_id:11}]);
-  let [res,setRes]=useState([{id:2,vehicleNo:'MH-02-2449',vehicleType:'Yamaha',services:["Cleaning"," , ","A/C Repair"," , ","Painting"],address:"IIIT Banglore",status:"Pending",remark:"Please deliver by today"},{id:5,vehicleNo:'MH-05-4304',vehicleType:'Honda',services:["Deep Cleaning"," , ","Tyre Repair"," , ","Oiling"],address:"IIIT Banglore",status:"Pending",remark:"Please deliver by tomorrow"}]);
+  // let [res,setRes]=useState([{id:2,vehicleNo:'MH-02-2449',vehicleType:'Yamaha',services:["Cleaning"," , ","A/C Repair"," , ","Painting"],address:"IIIT Banglore",status:"Pending",remark:"Please deliver by today"},{id:5,vehicleNo:'MH-05-4304',vehicleType:'Honda',services:["Deep Cleaning"," , ","Tyre Repair"," , ","Oiling"],address:"IIIT Banglore",status:"Pending",remark:"Please deliver by tomorrow"}]);
+  let [res,setRes]=useState([]);
+
+
+  axios.interceptors.request.use( config => {
+    const user = JSON.parse(localStorage.getItem('user'));
+  
+    if(user){
+      const token = 'Bearer ' + user;
+      config.headers.Authorization =  token;
+    }
+    return config;
+  });
+
 
   const Fetch_data = async()=>{
     await axios.get(`${props.Api}api/complaints/1`, 
@@ -166,7 +178,16 @@ if(res[i].id==cid){
     });
 
 }
+// console.log(res.services)
 
+for(let i=0;i<res.length;i++){
+  console.log(res[i])
+  for(let j=1;j<res[i].services.length;j++){
+    if(res[i].services[j][0]!==','){
+    res[i].services[j]="," + res[i].services[j]
+    }
+  }
+}
 
 
   return (

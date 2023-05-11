@@ -13,10 +13,11 @@ function Login (props) {
   // setRes([1,2,3,4])
   // console.log(res)
   // const [errMsg,setErrMsg] = useState('');
+  // console.log(props.Api)
   
   const  handleLogin = async () => {
   
-    await axios.post(`${props.Api}api/login`, {
+    await axios.post(`${props.Api}api/auth/login`, {
     
     mode:'cors',
     headers: new Headers({
@@ -27,6 +28,16 @@ function Login (props) {
 
   })
   .then(function (response) {
+    console.log(response)
+
+    if (response.headers.jwt) {
+      const token=JSON.stringify(response.headers.jwt);
+      // console.log(token)
+      // const AuthStr="Bearer ".concat(token)
+      localStorage.setItem("user",token);
+      
+      console.log(response.headers.jwt)
+    }
 
     Swal.fire({
       icon: 'success',
@@ -59,15 +70,15 @@ function Login (props) {
   }); 
   
   }
-
-
-  console.log(res)
   if(res.id==1){
     navigate('/owner')
   }
-  else if(res.length!=0){
+else if(res.length!=0){
     navigate('/customer',{state:{cust_id:res.id,resp:res}})
   }
+
+  // console.log(res)
+  
 
   return (
     <>

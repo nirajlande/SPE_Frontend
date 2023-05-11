@@ -12,6 +12,18 @@ function Customer(props){
   const {cust_id,resp} = state;
   console.log(resp)
   
+  axios.interceptors.request.use( config => {
+    const user = JSON.parse(localStorage.getItem('user'));
+  
+    if(user){
+      const token = 'Bearer ' + user;
+      config.headers.Authorization =  token;
+    }
+    return config;
+  });
+
+
+
   const Fetch_data = async()=>{
     await axios.get(`${props.Api}api/complaints/${cust_id}`, 
     
@@ -38,6 +50,15 @@ useEffect(()=>{
 },[]);
 
 console.log(res)
+
+for(let i=0;i<res.length;i++){
+  console.log(res[i])
+  for(let j=1;j<res[i].services.length;j++){
+    if(res[i].services[j][0]!==','){
+    res[i].services[j]="," + res[i].services[j]
+    }
+  }
+}
   // showStudentList = () => {
   //   this.setState({
   //     showTable: true,
