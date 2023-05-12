@@ -1,0 +1,14 @@
+---
+- name: Deploy Docker Image to Container
+  hosts: all
+  tasks:
+    - name: Copy compose file to remote host
+      copy:
+        src: ./docker-compose.yml
+        dest: ./
+
+    - name: run docker-compose file
+      command: docker-compose up -d
+
+    # - name: Prune the dangling Docker images
+    #   command: docker image prune --force
