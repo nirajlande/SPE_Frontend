@@ -25,6 +25,11 @@ pipeline {
                 }
             }
         }
+          stage("Removing Image from local"){
+            steps{
+                sh "docker rmi nirajlande/spe-frontend"
+            }
+        }
 
         stage('Ansible pull docker image') {
             steps {
