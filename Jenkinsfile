@@ -32,7 +32,8 @@ pipeline {
                 credentialsId: 'nirajlocal',
                 disableHostKeyChecking: true,
                 inventory: 'inventory',
-                playbook: 'ansible-playbook.yml'
+                playbook: 'ansible-playbook.yml',
+                vaultCredentialsId: 'vault-pass'
             }
         }
       

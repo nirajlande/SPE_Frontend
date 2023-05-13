@@ -2,6 +2,12 @@
 - name: Deploy Docker Image to Container
   hosts: all
   tasks:
+
+    - name: Copy .env file to remote host
+      copy:
+        src: .env
+        dest: ./
+
     - name: Copy compose file to remote host
       copy:
         src: ./docker-compose.yml
