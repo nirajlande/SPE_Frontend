@@ -1,4 +1,5 @@
 # Getting Started with Create React App
+#  "proxy":"http://spe-backend-container:8081",
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
